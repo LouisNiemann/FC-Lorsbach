@@ -1,90 +1,281 @@
+/*
+ * Vereinsfarben: PLATZHALTER – bitte durch die echten FC-Lorsbach-Farben ersetzen.
+ * --verein-primaer:   Hauptfarbe (Kopfzeile, Kacheln, Buttons)
+ * --verein-sekundaer: Akzentfarbe
+ * --verein-text:      Schriftfarbe auf der Hauptfarbe
+ */
 :root {
-  --vereinsfarbe: #0b5d1e;
-  --text: #1c1c1c;
-  --hintergrund: #f2f4f3;
-  --kachel: #ffffff;
-  --gedaempft: #666;
-  --radius: 10px;
+  --verein-primaer: #1d4e89;
+  --verein-sekundaer: #f2c230;
+  --verein-text: #ffffff;
+
+  --bg: #f3f5f8;
+  --flaeche: #ffffff;
+  --text: #16202c;
+  --gedaempft: #5b6675;
+  --rand: #d9dee5;
+  --schatten: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --radius: 16px;
+  --tap: 56px; /* Mindesthöhe für Buttons */
+  color-scheme: light;
+}
+
+/* Dunkelmodus: automatisch nach Systemeinstellung … */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f141a;
+    --flaeche: #1a222c;
+    --text: #e8edf3;
+    --gedaempft: #9aa6b4;
+    --rand: #2c3743;
+    --schatten: none;
+    color-scheme: dark;
+  }
+}
+/* … oder manuell über den Umschalter */
+:root[data-theme="dark"] {
+  --bg: #0f141a;
+  --flaeche: #1a222c;
+  --text: #e8edf3;
+  --gedaempft: #9aa6b4;
+  --rand: #2c3743;
+  --schatten: none;
+  color-scheme: dark;
 }
 
 * { box-sizing: border-box; }
 
+html, body { margin: 0; }
 body {
-  margin: 0;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 17px;
+  line-height: 1.4;
   color: var(--text);
-  background: var(--hintergrund);
+  background: var(--bg);
+  -webkit-tap-highlight-color: transparent;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
-.site-header {
-  background: var(--vereinsfarbe);
-  color: #fff;
-  padding: 1rem;
-}
-.site-header h1 { margin: 0; font-size: 1.5rem; }
+a { color: inherit; }
 
-/* Kachel-Raster */
+/* ---------- Kopfzeile ---------- */
+.kopf {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  padding-top: max(10px, env(safe-area-inset-top));
+  background: var(--verein-primaer);
+  color: var(--verein-text);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+.kopf__logo { width: 44px; height: 44px; object-fit: contain; flex: none; }
+.kopf__titel { flex: 1; min-width: 0; margin: 0; font-size: 1.15rem; line-height: 1.2; }
+.kopf__titel small { display: block; font-weight: 400; opacity: 0.85; font-size: 0.85rem; }
+.kopf__btn {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  height: 44px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.15);
+  color: inherit;
+  font: inherit;
+  font-size: 0.95rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+.kopf__btn svg { width: 22px; height: 22px; }
+
+.inhalt {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px;
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+}
+
+/* ---------- Kacheln ---------- */
 .kacheln {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1rem;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 1rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
-.kachel {
-  background: var(--kachel);
-  border-radius: var(--radius);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  padding: 1rem;
-  min-width: 0;
+@media (min-width: 640px) {
+  .kacheln { grid-template-columns: repeat(3, 1fr); }
 }
-.kachel h2 { margin-top: 0; color: var(--vereinsfarbe); }
-.kachel--breit { grid-column: 1 / -1; }
 
-/* Spiele & Tabelle */
-.team-tabs {
+.kachel {
+  position: relative;
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 140px;
+  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--flaeche);
+  border: 1px solid var(--rand);
+  box-shadow: var(--schatten);
+  text-decoration: none;
+  color: var(--text);
 }
-.team-tab {
+a.kachel:active, .kachel__btn:active { transform: scale(0.98); }
+.kachel--breit { grid-column: 1 / -1; min-height: 0; }
+
+.kachel__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--verein-primaer);
+  color: var(--verein-text);
+}
+.kachel__icon svg { width: 28px; height: 28px; }
+.kachel__titel { margin: 0; font-size: 1.1rem; font-weight: 700; }
+.kachel__text { margin: 2px 0 0; font-size: 0.85rem; color: var(--gedaempft); }
+.kachel__extern {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 18px;
+  height: 18px;
+  color: var(--gedaempft);
+}
+
+.kachel__buttons { display: flex; flex-direction: column; gap: 8px; }
+.kachel__btn,
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: var(--tap);
+  padding: 0 16px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--verein-primaer);
+  color: var(--verein-text);
   font: inherit;
-  padding: 0.4rem 0.9rem;
-  border: 1px solid var(--vereinsfarbe);
-  border-radius: 999px;
-  background: #fff;
-  color: var(--vereinsfarbe);
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
   cursor: pointer;
 }
-.team-tab[aria-selected="true"] { background: var(--vereinsfarbe); color: #fff; }
-
-.team-panel {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1rem;
+.button--zweit,
+.kachel__btn--zweit {
+  background: transparent;
+  color: var(--text);
+  border: 2px solid var(--verein-primaer);
 }
-.widget-block { min-width: 0; overflow-x: auto; }
-.widget-block h3 { margin: 0 0 0.5rem; font-size: 1.1rem; }
+.button svg, .kachel__btn svg { width: 20px; height: 20px; flex: none; }
 
-.widget-hinweis { color: var(--gedaempft); font-style: italic; }
+.fusszeile {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--gedaempft);
+}
 
-.consent-box {
-  border: 1px dashed var(--gedaempft);
-  border-radius: var(--radius);
-  padding: 1rem;
+/* ---------- Belegungsplan ---------- */
+.seite-pdf { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
+.pdf-leiste {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--flaeche);
+  border-bottom: 1px solid var(--rand);
+}
+.pdf-leiste .button { min-height: 48px; min-width: 48px; padding: 0 12px; }
+.pdf-leiste .abstand { flex: 1; }
+.pdf-zoom { min-width: 3.5em; text-align: center; font-variant-numeric: tabular-nums; color: var(--gedaempft); }
+
+.pdf-container {
+  position: relative;
+  flex: 1;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y; /* Pinch-Zoom übernimmt das Skript */
+  background: #525659;
+}
+.pdf-seiten {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  width: max-content;
+  min-width: 100%;
+  transform-origin: 0 0;
+}
+.pdf-seiten canvas {
+  display: block;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+.pdf-status {
+  padding: 24px 16px;
+  color: #fff;
   text-align: center;
 }
-.button {
-  font: inherit;
-  padding: 0.6rem 1.2rem;
-  border: 0;
-  border-radius: var(--radius);
-  background: var(--vereinsfarbe);
-  color: #fff;
-  cursor: pointer;
+.pdf-status .button { margin: 16px auto 0; max-width: 320px; }
+.hinweis-offline {
+  padding: 6px 12px;
+  background: var(--verein-sekundaer);
+  color: #000;
+  font-size: 0.85rem;
+  text-align: center;
 }
 
-.quelle { font-size: 0.85rem; color: var(--gedaempft); margin-bottom: 0; }
-.quelle a { color: inherit; }
+/* ---------- Spiele & Tabelle ---------- */
+.team-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  margin-bottom: 16px;
+  padding-bottom: 4px;
+}
+.team-tab {
+  flex: none;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 2px solid var(--verein-primaer);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.team-tab[aria-selected="true"] { background: var(--verein-primaer); color: var(--verein-text); }
+.team-panel { display: grid; gap: 16px; }
+@media (min-width: 800px) { .team-panel { grid-template-columns: 1fr 1fr; } }
+.widget-block {
+  min-width: 0;
+  overflow-x: auto;
+  padding: 12px;
+  border-radius: var(--radius);
+  background: var(--flaeche);
+  border: 1px solid var(--rand);
+}
+.widget-block h3 { margin: 0 0 8px; font-size: 1.05rem; }
+.widget-hinweis { color: var(--gedaempft); font-style: italic; margin: 0; }
+.consent-box {
+  padding: 16px;
+  border-radius: var(--radius);
+  background: var(--flaeche);
+  border: 1px dashed var(--gedaempft);
+  text-align: center;
+}
+.consent-box p { margin-top: 0; }
+.quelle { font-size: 0.8rem; color: var(--gedaempft); }

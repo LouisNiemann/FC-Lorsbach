@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1d4e89">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="FCL Trainer">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/style.css">
+  <script>try{var t=localStorage.getItem("fcl-theme");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <title>Belegungsplan – FC Lorsbach</title>
+</head>
+<body class="seite-pdf">
+  <header class="kopf">
+    <a class="kopf__btn" href="./" aria-label="Zurück zur Startseite">‹ Start</a>
+    <h1 class="kopf__titel">Belegungsplan</h1>
+    <button class="kopf__btn" id="theme-btn" type="button" aria-label="Farbmodus"></button>
+  </header>
+
+  <div class="pdf-leiste">
+    <button class="button button--zweit" id="zoom-out" type="button" aria-label="Verkleinern">−</button>
+    <span class="pdf-zoom" id="zoom-wert">100 %</span>
+    <button class="button button--zweit" id="zoom-in" type="button" aria-label="Vergrößern">+</button>
+    <button class="button button--zweit" id="zoom-fit" type="button">Breite</button>
+    <span class="abstand"></span>
+    <a class="button" id="download" href="belegungsplan.pdf" download aria-label="PDF herunterladen">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+      PDF
+    </a>
+  </div>
+  <div class="hinweis-offline" id="offline-hinweis" hidden>Offline – angezeigt wird die zuletzt gespeicherte Version.</div>
+
+  <div class="pdf-container" id="pdf-container">
+    <div class="pdf-status" id="pdf-status">Belegungsplan wird geladen …</div>
+    <div class="pdf-seiten" id="pdf-seiten"></div>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="js/app.js"></script>
+  <script type="module" src="js/belegungsplan.js"></script>
+</body>
+</html>
