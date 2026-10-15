@@ -1,0 +1,90 @@
+:root {
+  --vereinsfarbe: #0b5d1e;
+  --text: #1c1c1c;
+  --hintergrund: #f2f4f3;
+  --kachel: #ffffff;
+  --gedaempft: #666;
+  --radius: 10px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: var(--text);
+  background: var(--hintergrund);
+}
+
+.site-header {
+  background: var(--vereinsfarbe);
+  color: #fff;
+  padding: 1rem;
+}
+.site-header h1 { margin: 0; font-size: 1.5rem; }
+
+/* Kachel-Raster */
+.kacheln {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+.kachel {
+  background: var(--kachel);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  min-width: 0;
+}
+.kachel h2 { margin-top: 0; color: var(--vereinsfarbe); }
+.kachel--breit { grid-column: 1 / -1; }
+
+/* Spiele & Tabelle */
+.team-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.team-tab {
+  font: inherit;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--vereinsfarbe);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--vereinsfarbe);
+  cursor: pointer;
+}
+.team-tab[aria-selected="true"] { background: var(--vereinsfarbe); color: #fff; }
+
+.team-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+.widget-block { min-width: 0; overflow-x: auto; }
+.widget-block h3 { margin: 0 0 0.5rem; font-size: 1.1rem; }
+
+.widget-hinweis { color: var(--gedaempft); font-style: italic; }
+
+.consent-box {
+  border: 1px dashed var(--gedaempft);
+  border-radius: var(--radius);
+  padding: 1rem;
+  text-align: center;
+}
+.button {
+  font: inherit;
+  padding: 0.6rem 1.2rem;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--vereinsfarbe);
+  color: #fff;
+  cursor: pointer;
+}
+
+.quelle { font-size: 0.85rem; color: var(--gedaempft); margin-bottom: 0; }
+.quelle a { color: inherit; }
